@@ -1,17 +1,10 @@
 require 'rest_client'
+require 'ostruct'
 
 class VK
   module IO
     class Web
       attr_accessor :frequency
-
-      Request=Struct.new(:request, :respond_to, :priority) do
-        def initialize(args)
-          @request=args[:request]
-          @respond_to=args[:respond_to]
-          @priority=args[:priority]
-        end
-      end
 
       def initialize(args={})
         @requests=[]
@@ -20,6 +13,7 @@ class VK
         args=defaults.merge args
         @frequency=args[:frequency]
         @thread=nil
+        ObjectSpace.define_finalizer(self, proc {stop})
         start
       end
 
@@ -32,20 +26,17 @@ class VK
       end
 
       def stop
-        Thread.kill(@thread)
+        Thread.kill(@thread) if @thread
       end
 
       def push(args)
-        puts "Here"
-        @requests << Request.new(request: args[:request], respond_to: args[:respond_to], priority: args[:prioirity]||0)
+        @requests << OpenStruct.new(request: args[:request], respond_to: args[:respond_to], priority: args[:prioirity]||0)
       end
 
       private
 
       def process_request
-        puts "#{@requests.length}" if @requests.length>0
         return unless request=fetch_request
-
         delay
         response=send_request(request.request)
         process_response(response, request.respond_to)
@@ -70,9 +61,10 @@ class VK
 
       def delay
         time_since_last_request=Time.now-@last_request_time # in seconds
-        @last_request_time=Time.now
-        pause=Math.max(@frequency-time_since_last_request, 0)
+        pause=[(@frequency-time_since_last_request).round(2), 0].max
+        
         sleep(pause) unless pause==0
+        @last_request_time=Time.now
       end
 
       def defaults
