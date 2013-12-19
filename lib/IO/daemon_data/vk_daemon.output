@@ -1,0 +1,11 @@
+vk_daemon: process with pid 11314 started.
+/home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:203:in `load': cannot load such file -- /home/alex/Development/vkcrawler/lib/IO/server.rb (LoadError)
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:203:in `start_load'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:298:in `start'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/controller.rb:70:in `run'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons.rb:147:in `block in run'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `call'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `catch_exceptions'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons.rb:146:in `run'
+	from daemon.rb:3:in `<main>'
+vk_daemon: process with pid 11425 started.
