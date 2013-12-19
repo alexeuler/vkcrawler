@@ -4,7 +4,7 @@ class VK
   module IO
     class Lan
 
-      attr_accessor :socket, :thread
+      attr_accessor :socket, :thread, :requests_number
 
       def initialize(args={})
         args=defaults.merge(args)
@@ -13,6 +13,7 @@ class VK
         @web=args[:web]
         @thread=nil
         @socket=nil
+        @requests_number=0
         start
       end
 
@@ -27,20 +28,30 @@ class VK
 
       def process_response(response)
         socket.puts response
-        socket.close
-        Thread.exit
+        @requests_number-=1
+        if @requests_number==0
+          socket.close
+          Thread.exit
+        end
       end
 
       private
 
       def process_request(server)
         Thread.new(server.accept) do |client|
-          this=self.dup
+          
+          this=self.clone
           this.socket=client
+          this.requests_number=0
           requests=[]
-          while request=client.gets do
-            @web.push request: requests, respond_to: this
+
+          while request=client.gets.chomp do
+            break if request == "eof"
+            requests << request
           end
+          
+          this.requests_number=requests.length
+          requests.each {|request| @web.push request: request, respond_to: this}
         end
       end
 
