@@ -25,7 +25,7 @@ class VK
         until Requester.count==5 do
         end
         finish=Time.now
-        (finish-start).round(2).should==1
+        (finish-start).round(2).should>=1
       end
       
     end

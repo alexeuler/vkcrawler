@@ -3,16 +3,15 @@ class VK
   module IO
     describe "VK::IO::Lan" do
       it "processes requests on localhost:9000" do
-        lan=Lan.new
-        lan.stub(:process).and_return("TestResponse")
-        socket=TCPSocket.new('localhost', 9000)
-        requests=["TestRequest1", "TestRequest2"]
-        socket.puts requests.join("\n")
-        responses=""
-        while line=socket.gets.chomp do
-          responses << line
+        web=double("Web")
+        def web.push(args={})
+          args[:respond_to].process_response("TestResponse")
         end
-        responses.should=="TestResponseTestResponse"
+        lan=Lan.new(web: web)
+        socket=TCPSocket.new('localhost', 9000)
+        socket.puts "TestRequest1"
+        line=socket.gets.chomp
+        line.should=="TestResponse"
       end
       
     end

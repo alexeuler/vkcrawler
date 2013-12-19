@@ -4,43 +4,47 @@ class VK
   module IO
     class Lan
 
-      def initialize(args)
+      attr_accessor :socket, :thread
+
+      def initialize(args={})
         args=defaults.merge(args)
         @host=args[:host]
         @port=args[:port]
-        @web=Web.new
+        @web=args[:web]
+        @thread=nil
+        @socket=nil
         start
       end
 
       def start
-        server=TCPSocket.new(@host,@port)
-        loop {
-          Thread.new(server.accept) do |client|
-            begin
-              request=client.gets
-              response=process(request)
-              client.puts response
-            rescue Exception => e
-              log.error "Error after connection acceptance: #{e.message}"
-            ensure
-              client.close
-              Thread.exit
-            end
+        server=TCPServer.new(@host,@port)
+        @thread=Thread.new do
+          while true do
+            process_request(server)
           end
-        }
+        end
       end
 
-      def respond_to
-        
+      def process_response(response)
+        socket.puts response
+        socket.close
+        Thread.exit
       end
 
       private
 
-      def process(request)
-        
+      def process_request(server)
+        Thread.new(server.accept) do |client|
+          this=self.dup
+          this.socket=client
+          requests=[]
+          while request=client.gets do
+            @web.push request: requests, respond_to: this
+          end
+        end
       end
 
-      def defaluts
+      def defaults
         {host: 'localhost', port: 9000}
       end
 
