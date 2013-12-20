@@ -39,7 +39,7 @@ class VK
         begin
           server=TCPServer.new(@host,@port)
         rescue Exception => e
-          puts "Class #{self.class} was unable to start server on #{@host}:#{@port}"
+          puts "Class #{self.class} was unable to start server on #{@host}:#{@port}. Error: #{e.message}"
           raise e
         end
         Thread.new do

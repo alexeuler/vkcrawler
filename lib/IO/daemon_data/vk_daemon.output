@@ -9,3 +9,5 @@ vk_daemon: process with pid 11314 started.
 	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons.rb:146:in `run'
 	from daemon.rb:3:in `<main>'
 vk_daemon: process with pid 11425 started.
+vk_daemon: process with pid 6285 started.
+vk_daemon: process with pid 6504 started.
