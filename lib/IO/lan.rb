@@ -1,5 +1,3 @@
-require_relative "web"
-
 class VK
   module IO
     class Lan
@@ -13,7 +11,6 @@ class VK
         @host=args[:host]
         @port=args[:port]
         @web=args[:web]
-        @thread=nil
         @socket=nil
         @requests_number=0
         start
@@ -21,8 +18,8 @@ class VK
 
       def start
         server=TCPServer.new(@host,@port)
-        @thread=Thread.new do
-          while true do
+        Thread.new do
+          while true 
             process_request(server)
           end
         end
@@ -40,21 +37,28 @@ class VK
       private
 
       def process_request(server)
-        Thread.new(server.accept) do |client|
-          
-          this=self.clone
-          this.socket=client
-          this.requests_number=0
-          requests=[]
-
-          while request=client.gets.chomp do
-            break if request == EOF
-            requests << request
-          end
-          
-          this.requests_number=requests.length
-          requests.each {|request| @web.push request: request, respond_to: this}
+        Thread.new(server.accept) do |socket|
+          @socket=socket
+          requests=read_requests(socket)
+          push_requests(requests)
         end
+      end
+      
+      def read_requests(socket)
+        requests=[]
+        while request=socket.gets do
+          request.chomp!
+          break if request == EOF
+          requests << request
+        end
+        requests
+      end
+
+      def push_requests(requests) 
+        this=self.clone
+        this.requests_number=0
+        this.requests_number=requests.length
+        requests.each {|request| @web.push request: request, respond_to: this}
       end
 
       def defaults
