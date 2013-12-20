@@ -11,3 +11,32 @@ vk_daemon: process with pid 11314 started.
 vk_daemon: process with pid 11425 started.
 vk_daemon: process with pid 6285 started.
 vk_daemon: process with pid 6504 started.
+vk_daemon: process with pid 6748 started.
+daemon.rb:12:in `block in <main>': uninitialized constant VK (NameError)
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `call'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `block in start_proc'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call_as_daemon'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:259:in `start_proc'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:296:in `start'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/controller.rb:70:in `run'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons.rb:197:in `block in run_proc'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `call'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `catch_exceptions'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons.rb:196:in `run_proc'
+	from daemon.rb:5:in `<main>'
+vk_daemon: process with pid 6774 started.
+daemon.rb:12:in `block in <main>': uninitialized constant VK (NameError)
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `call'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `block in start_proc'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call_as_daemon'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:259:in `start_proc'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:296:in `start'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/controller.rb:70:in `run'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons.rb:197:in `block in run_proc'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `call'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `catch_exceptions'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons.rb:196:in `run_proc'
+	from daemon.rb:5:in `<main>'
+vk_daemon: process with pid 6815 started.

@@ -1,4 +1,4 @@
-class VK
+module Vk
   module IO
 
     EOF='&<<!EOF'

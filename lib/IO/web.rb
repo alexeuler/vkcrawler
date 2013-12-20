@@ -1,7 +1,7 @@
 require 'rest_client'
 require 'ostruct'
 
-class VK
+module Vk
   module IO
     class Web
       attr_accessor :frequency
