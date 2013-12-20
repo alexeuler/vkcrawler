@@ -21,18 +21,25 @@ class VK
       end
 
       it "processes requests on localhost:9000" do
-        @socket.puts "TestRequest1\neof"
+        @socket.puts "TestRequest1\n#{Lan::EOF}"
         line=@socket.gets.chomp
         line.should=="TestRequest1Response"
       end
 
       it "can process a bunch of requests through one socket" do
-        @socket.puts "TestRequest1\nTestRequest2\neof"
-        result=""
-        2.times do
-          result << @socket.gets.chomp
+        @socket.puts "TestRequest1\nTestRequest2\n#{Lan::EOF}"
+        result=[]
+        response=""
+        while line=@socket.gets do
+          line.chomp!
+          if line==Lan::EOF 
+            result << response 
+            response="" 
+          else 
+            response << line
+          end
         end
-        result.should=="TestRequest1ResponseTestRequest2Response"
+        result.should==["TestRequest1Response","TestRequest2Response"]
       end
       
     end

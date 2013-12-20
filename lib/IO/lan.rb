@@ -6,6 +6,8 @@ class VK
 
       attr_accessor :socket, :thread, :requests_number
 
+      EOF='&<<!EOF'
+
       def initialize(args={})
         args=defaults.merge(args)
         @host=args[:host]
@@ -27,7 +29,7 @@ class VK
       end
 
       def process_response(response)
-        socket.puts response
+        socket.puts response+"\n"+EOF
         @requests_number-=1
         if @requests_number==0
           socket.close
@@ -46,7 +48,7 @@ class VK
           requests=[]
 
           while request=client.gets.chomp do
-            break if request == "eof"
+            break if request == EOF
             requests << request
           end
           
