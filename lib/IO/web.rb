@@ -39,7 +39,7 @@ class VK
         return unless request=fetch_request
         delay
         response=send_request(request.request)
-        process_response(response, request.respond_to)
+        handle_response(response, request.respond_to)
       end 
 
       def fetch_request
@@ -55,8 +55,8 @@ class VK
         RestClient.get(request)
       end
 
-      def process_response(response, respond_to)
-        respond_to.process_response(response)
+      def handle_response(response, respond_to)
+        respond_to.handle_response(response)
       end
 
       def delay

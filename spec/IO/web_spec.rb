@@ -8,7 +8,7 @@ class VK
         def self.count
           @@count
         end
-        def process_response(response)
+        def handle_response(response)
           @@count+=1
         end
       end

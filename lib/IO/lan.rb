@@ -1,18 +1,33 @@
 class VK
   module IO
+
+    EOF='&<<!EOF'
+
+    class ResponseHandler
+
+      def initialize(args)
+        @socket=args[:socket]
+        @number=args[:number]
+      end
+
+      def handle_response(response)
+        @socket.puts response+"\n"+EOF
+        @number-=1
+        if @number==0
+          @socket.close
+          Thread.exit
+        end
+      end
+
+    end
+
     class Lan
-
-      attr_accessor :socket, :thread, :requests_number
-
-      EOF='&<<!EOF'
 
       def initialize(args={})
         args=defaults.merge(args)
         @host=args[:host]
         @port=args[:port]
         @web=args[:web]
-        @socket=nil
-        @requests_number=0
         start
       end
 
@@ -25,22 +40,14 @@ class VK
         end
       end
 
-      def process_response(response)
-        socket.puts response+"\n"+EOF
-        @requests_number-=1
-        if @requests_number==0
-          socket.close
-          Thread.exit
-        end
-      end
 
       private
 
       def process_request(server)
         Thread.new(server.accept) do |socket|
-          @socket=socket
           requests=read_requests(socket)
-          push_requests(requests)
+          respond_to=ResponseHandler.new(socket: socket, number: requests.count)
+          requests.each {|r| @web.push request: r, respond_to: respond_to}
         end
       end
       
@@ -52,13 +59,6 @@ class VK
           requests << request
         end
         requests
-      end
-
-      def push_requests(requests) 
-        this=self.clone
-        this.requests_number=0
-        this.requests_number=requests.length
-        requests.each {|request| @web.push request: request, respond_to: this}
       end
 
       def defaults

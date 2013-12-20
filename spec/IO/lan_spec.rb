@@ -6,7 +6,7 @@ class VK
       before :all do
         @web=Object.new #doubles doesn't work in before all
         def @web.push(args={})
-          args[:respond_to].process_response(args[:request]+"Response")
+          args[:respond_to].handle_response(args[:request]+"Response")
         end
         @lan=Lan.new(web: @web)
         Thread.abort_on_exception=true
@@ -21,18 +21,18 @@ class VK
       end
 
       it "processes requests on localhost:9000" do
-        @socket.puts "TestRequest1\n#{Lan::EOF}"
+        @socket.puts "TestRequest1\n#{EOF}"
         line=@socket.gets.chomp
         line.should=="TestRequest1Response"
       end
 
       it "can process a bunch of requests through one socket" do
-        @socket.puts "TestRequest1\nTestRequest2\n#{Lan::EOF}"
+        @socket.puts "TestRequest1\nTestRequest2\n#{EOF}"
         result=[]
         response=""
         while line=@socket.gets do
           line.chomp!
-          if line==Lan::EOF 
+          if line==EOF 
             result << response 
             response="" 
           else 
