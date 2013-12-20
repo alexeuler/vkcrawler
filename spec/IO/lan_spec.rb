@@ -20,13 +20,17 @@ class VK
         @socket.close        
       end
 
-      it "processes requests on localhost:9000" do
+      it "logs error message if localhost:9000 is unavailable on initialization" do
+        expect {Lan.new}.to raise_error
+      end
+
+      it "processes 1 request on localhost:9000" do
         @socket.puts "TestRequest1\n#{EOF}"
         line=@socket.gets.chomp
         line.should=="TestRequest1Response"
       end
 
-      it "can process a bunch of requests through one socket" do
+      it "can process a bunch of requests in one socket" do
         @socket.puts "TestRequest1\nTestRequest2\n#{EOF}"
         result=[]
         response=""

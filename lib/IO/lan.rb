@@ -11,7 +11,7 @@ class VK
       end
 
       def handle_response(response)
-        @socket.puts response+"\n"+EOF
+        @socket.puts "#{response}\n#{EOF}"
         @number-=1
         if @number==0
           @socket.close
@@ -23,6 +23,10 @@ class VK
 
     class Lan
 
+      # Protocol
+      # Request - separated with  \n, EOF - end of transmission
+      # Response - separated with EOF, socket close - end of transmission
+
       def initialize(args={})
         args=defaults.merge(args)
         @host=args[:host]
@@ -32,10 +36,15 @@ class VK
       end
 
       def start
-        server=TCPServer.new(@host,@port)
+        begin
+          server=TCPServer.new(@host,@port)
+        rescue Exception => e
+          puts "Class #{self.class} was unable to start server on #{@host}:#{@port}"
+          raise e
+        end
         Thread.new do
           while true 
-            process_request(server)
+            process_requests(server)
           end
         end
       end
@@ -43,7 +52,7 @@ class VK
 
       private
 
-      def process_request(server)
+      def process_requests(server)
         Thread.new(server.accept) do |socket|
           requests=read_requests(socket)
           respond_to=ResponseHandler.new(socket: socket, number: requests.count)
