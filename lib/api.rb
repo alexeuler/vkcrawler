@@ -3,13 +3,14 @@ require "socket"
 module Vk
   class Api
 
-    EOF='&<<!EOF'
+    EOF='xHvh58vuUU'
 
   #def method_missing(method, *args, &block)
     #method.gsub!("_",".")
   #end
 
     def send(request)
+      puts Time.now
       s=TCPSocket.new "localhost", 9000
       s.puts "#{request}\n#{EOF}"
       response=""
@@ -17,8 +18,9 @@ module Vk
         line.chomp!
         response << line
       end
-      response
       s.close
+      puts Time.now
+      #response
     end
 
   end

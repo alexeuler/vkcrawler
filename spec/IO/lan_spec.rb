@@ -1,5 +1,5 @@
 require "IO/lan"
-class VK
+module Vk
   module IO
     describe "VK::IO::Lan" do
 

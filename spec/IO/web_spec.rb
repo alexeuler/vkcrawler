@@ -1,5 +1,5 @@
 require "IO/web"
-class VK
+module Vk
   module IO
     describe "VK::IO::Web" do
 
@@ -25,7 +25,7 @@ class VK
         until Requester.count==5 do
         end
         finish=Time.now
-        (finish-start).round(2).should>=1
+        (finish-start).should>=1
       end
       
     end

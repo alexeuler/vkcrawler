@@ -30,6 +30,7 @@ module Vk
       end
 
       def push(args)
+        log "Incoming requests: #{args}"
         @requests << OpenStruct.new(request: args[:request], respond_to: args[:respond_to], priority: args[:prioirity]||0)
       end
 
@@ -39,7 +40,11 @@ module Vk
         return unless request=fetch_request
         delay
         response=send_request(request.request)
-        handle_response(response, request.respond_to)
+        begin
+        request.respond_to.handle_response(response)
+        rescue Exception => e
+          log e.message
+        end
       end 
 
       def fetch_request
@@ -48,21 +53,21 @@ module Vk
         candidates=@requests.select {|x| x.priority==priority}
         request=candidates.shift
         @requests.delete request
+        log "Fetched request for web processing: #{request}"
         request
       end
 
       def send_request(request)
-        RestClient.get(request)
-      end
-
-      def handle_response(response, respond_to)
-        respond_to.handle_response(response)
+        log "Fetching response from web..."
+        response=RestClient.get(request)
+        log "Fetched response from web: #{response[0..20]}..."
+        response
       end
 
       def delay
         time_since_last_request=Time.now-@last_request_time # in seconds
         pause=[(@frequency-time_since_last_request).round(2), 0].max
-        
+        log "Slept #{pause} sec"
         sleep(pause) unless pause==0
         @last_request_time=Time.now
       end
@@ -70,6 +75,14 @@ module Vk
       def defaults
         {frequency: 0.2}
       end
+
+      def log(data)
+        t=Time.now
+        ms=(t.to_f*1000).to_i % 1000
+        puts "#{t} #{ms}ms - #{data}"
+      end
+
+
     end
   end  
 end
