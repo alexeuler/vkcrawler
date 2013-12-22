@@ -10,7 +10,6 @@ module Vk
   #end
 
     def send(request)
-      puts Time.now
       s=TCPSocket.new "localhost", 9000
       s.puts "#{request}\n#{EOF}"
       response=""
@@ -19,8 +18,7 @@ module Vk
         response << line
       end
       s.close
-      puts Time.now
-      #response
+      response
     end
 
   end

@@ -10,6 +10,8 @@ Daemons.run_proc('vk_daemon', {
               log_output: true
             }) do
   web=Vk::IO::Web.new
-  Vk::IO::Lan.new(web: web)
-  loop {}
+  Thread.new do
+    Vk::IO::Lan.new(web: web)
+  end
+  Thread.stop
 end

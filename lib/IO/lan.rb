@@ -16,7 +16,6 @@ module Vk
         @number-=1
         if @number==0
           @socket.close
-          #Thread.exit
         end
       end
       

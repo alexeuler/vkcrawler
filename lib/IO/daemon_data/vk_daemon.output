@@ -238,3 +238,90 @@ vk_daemon: process with pid 7948 started.
 2013-12-22 01:11:20 +0400 540ms - Fetching response from web...
 2013-12-22 01:11:22 +0400 142ms - Fetched response from web: <!doctype html><html ...
 2013-12-22 01:11:22 +0400 - Response handler called. Response: <!doctype html><html ...
+vk_daemon: process with pid 8487 started.
+2013-12-22 02:00:56 +0400 87ms - Server started on localhost:9000
+2013-12-22 02:00:56 +0400 88ms - Constructor called
+2013-12-22 02:01:17 +0400 382ms - Fetched requests: ["google.com"]
+2013-12-22 02:01:17 +0400 582ms - Incoming requests: {:request=>"google.com", :respond_to=>#<Vk::IO::ResponseHandler:0x000000024ca278 @socket=#<TCPSocket:fd 8>, @number=1>}
+vk_daemon: process with pid 8516 started.
+2013-12-22 02:02:39 +0400 618ms - Server started on localhost:9000
+2013-12-22 02:02:39 +0400 618ms - Constructor called
+2013-12-22 02:02:41 +0400 991ms - Fetched requests: ["google.com"]
+2013-12-22 02:02:42 +0400 192ms - Incoming requests: {:request=>"google.com", :respond_to=>#<Vk::IO::ResponseHandler:0x00000001682350 @socket=#<TCPSocket:fd 8>, @number=1>}
+vk_daemon: process with pid 8547 started.
+2013-12-22 02:04:09 +0400 579ms - Server started on localhost:9000
+2013-12-22 02:04:09 +0400 580ms - Constructor called
+vk_daemon: process with pid 8576 started.
+2013-12-22 02:06:33 +0400 282ms - Server started on localhost:9000
+2013-12-22 02:06:33 +0400 282ms - Constructor called
+2013-12-22 02:06:44 +0400 269ms - Fetched requests: ["google.com"]
+2013-12-22 02:06:44 +0400 470ms - Incoming requests: {:request=>"google.com", :respond_to=>#<Vk::IO::ResponseHandler:0x00000002e5dd58 @socket=#<TCPSocket:fd 8>, @number=1>}
+2013-12-22 02:06:44 +0400 670ms - killed thread
+vk_daemon: process with pid 8608 started.
+2013-12-22 02:07:39 +0400 628ms - Server started on localhost:9000
+2013-12-22 02:07:39 +0400 629ms - Constructor called
+2013-12-22 02:07:40 +0400 951ms - Fetched requests: ["google.com"]
+2013-12-22 02:07:41 +0400 151ms - Incoming requests: {:request=>"google.com", :respond_to=>#<Vk::IO::ResponseHandler:0x00000003261dc8 @socket=#<TCPSocket:fd 8>, @number=1>}
+2013-12-22 02:07:41 +0400 351ms - Fetched request for web processing: #<OpenStruct request="google.com", respond_to=#<Vk::IO::ResponseHandler:0x00000003261dc8 @socket=#<TCPSocket:fd 8>, @number=1>, priority=0>
+2013-12-22 02:07:41 +0400 551ms - Slept 0 sec
+2013-12-22 02:07:41 +0400 751ms - Fetching response from web...
+2013-12-22 02:07:43 +0400 453ms - Fetched response from web: <!doctype html><html ...
+2013-12-22 02:07:43 +0400 - Response handler called. Response: <!doctype html><html ...
+vk_daemon: process with pid 8643 started.
+2013-12-22 02:09:58 +0400 38ms - Server started on localhost:9000
+2013-12-22 02:09:58 +0400 39ms - Constructor called
+2013-12-22 02:09:59 +0400 940ms - Fetched requests: ["google.com"]
+2013-12-22 02:10:00 +0400 140ms - Incoming requests: {:request=>"google.com", :respond_to=>#<Vk::IO::ResponseHandler:0x00000001cf2028 @socket=#<TCPSocket:fd 8>, @number=1>}
+2013-12-22 02:10:00 +0400 340ms - Bad!!!!
+2013-12-22 02:10:00 +0400 541ms - Fetched request for web processing: #<OpenStruct request="google.com", respond_to=#<Vk::IO::ResponseHandler:0x00000001cf2028 @socket=#<TCPSocket:fd 8>, @number=1>, priority=0>
+2013-12-22 02:10:00 +0400 741ms - Slept 0 sec
+2013-12-22 02:10:00 +0400 941ms - Fetching response from web...
+2013-12-22 02:10:02 +0400 543ms - Fetched response from web: <!doctype html><html ...
+2013-12-22 02:10:02 +0400 - Response handler called. Response: <!doctype html><html ...
+vk_daemon: process with pid 8677 started.
+2013-12-22 02:11:45 +0400 424ms - Server started on localhost:9000
+2013-12-22 02:11:45 +0400 424ms - Constructor called
+2013-12-22 02:11:46 +0400 513ms - Fetched requests: ["google.com"]
+2013-12-22 02:11:46 +0400 714ms - Incoming requests: {:request=>"google.com", :respond_to=>#<Vk::IO::ResponseHandler:0x00000001b96260 @socket=#<TCPSocket:fd 8>, @number=1>}
+2013-12-22 02:11:46 +0400 914ms - Bad!!!!
+2013-12-22 02:11:47 +0400 114ms - Fetched request for web processing: #<OpenStruct request="google.com", respond_to=#<Vk::IO::ResponseHandler:0x00000001b96260 @socket=#<TCPSocket:fd 8>, @number=1>, priority=0>
+2013-12-22 02:11:47 +0400 314ms - Slept 0 sec
+2013-12-22 02:11:47 +0400 514ms - Fetching response from web...
+2013-12-22 02:11:49 +0400 116ms - Fetched response from web: <!doctype html><html ...
+2013-12-22 02:11:49 +0400 - Response handler called. Response: <!doctype html><html ...
+vk_daemon: process with pid 4895 started.
+2013-12-23 00:44:13 +0400 776ms - Server started on localhost:9000
+2013-12-23 00:44:13 +0400 776ms - Constructor called
+2013-12-23 00:45:01 +0400 712ms - Fetched requests: ["google.com"]
+2013-12-23 00:45:01 +0400 713ms - Incoming requests: {:request=>"google.com", :respond_to=>#<Vk::IO::ResponseHandler:0x00000001966ee0 @socket=#<TCPSocket:fd 8>, @number=1>}
+vk_daemon: process with pid 5008 started.
+2013-12-23 00:47:10 +0400 338ms - Server started on localhost:9000
+2013-12-23 00:47:10 +0400 338ms - Constructor called
+2013-12-23 00:47:27 +0400 278ms - Fetched requests: ["google.com"]
+2013-12-23 00:47:27 +0400 278ms - Incoming requests: {:request=>"google.com", :respond_to=>#<Vk::IO::ResponseHandler:0x00000001a11ea8 @socket=#<TCPSocket:fd 8>, @number=1>}
+2013-12-23 00:47:27 +0400 279ms - Fetched request for web processing: #<OpenStruct request="google.com", respond_to=#<Vk::IO::ResponseHandler:0x00000001a11ea8 @socket=#<TCPSocket:fd 8>, @number=1>, priority=0>
+2013-12-23 00:47:27 +0400 280ms - Slept 0 sec
+2013-12-23 00:47:27 +0400 280ms - Fetching response from web...
+2013-12-23 00:47:27 +0400 432ms - Fetched response from web: <!doctype html><html ...
+2013-12-23 00:47:27 +0400 - Response handler called. Response: <!doctype html><html ...
+2013-12-23 00:49:12 +0400 389ms - Fetched requests: ["google.com"]
+2013-12-23 00:49:12 +0400 390ms - Incoming requests: {:request=>"google.com", :respond_to=>#<Vk::IO::ResponseHandler:0x00000001a4b180 @socket=#<TCPSocket:fd 8>, @number=1>}
+2013-12-23 00:49:12 +0400 391ms - Fetched request for web processing: #<OpenStruct request="google.com", respond_to=#<Vk::IO::ResponseHandler:0x00000001a4b180 @socket=#<TCPSocket:fd 8>, @number=1>, priority=0>
+2013-12-23 00:49:12 +0400 391ms - Slept 0 sec
+2013-12-23 00:49:12 +0400 391ms - Fetching response from web...
+2013-12-23 00:49:12 +0400 600ms - Fetched response from web: <!doctype html><html ...
+2013-12-23 00:49:12 +0400 - Response handler called. Response: <!doctype html><html ...
+2013-12-23 00:49:21 +0400 717ms - Fetched requests: ["google.com"]
+2013-12-23 00:49:21 +0400 717ms - Incoming requests: {:request=>"google.com", :respond_to=>#<Vk::IO::ResponseHandler:0x00000001a95280 @socket=#<TCPSocket:fd 8>, @number=1>}
+2013-12-23 00:49:21 +0400 718ms - Fetched request for web processing: #<OpenStruct request="google.com", respond_to=#<Vk::IO::ResponseHandler:0x00000001a95280 @socket=#<TCPSocket:fd 8>, @number=1>, priority=0>
+2013-12-23 00:49:21 +0400 718ms - Slept 0 sec
+2013-12-23 00:49:21 +0400 719ms - Fetching response from web...
+2013-12-23 00:49:21 +0400 848ms - Fetched response from web: <!doctype html><html ...
+2013-12-23 00:49:21 +0400 - Response handler called. Response: <!doctype html><html ...
+2013-12-23 00:50:11 +0400 208ms - Fetched requests: ["vk.com"]
+2013-12-23 00:50:11 +0400 208ms - Incoming requests: {:request=>"vk.com", :respond_to=>#<Vk::IO::ResponseHandler:0x00000001aebe78 @socket=#<TCPSocket:fd 8>, @number=1>}
+2013-12-23 00:50:11 +0400 209ms - Fetched request for web processing: #<OpenStruct request="vk.com", respond_to=#<Vk::IO::ResponseHandler:0x00000001aebe78 @socket=#<TCPSocket:fd 8>, @number=1>, priority=0>
+2013-12-23 00:50:11 +0400 209ms - Slept 0 sec
+2013-12-23 00:50:11 +0400 210ms - Fetching response from web...
+2013-12-23 00:50:12 +0400 311ms - Fetched response from web: <?xml version="1.0" e...
+2013-12-23 00:50:12 +0400 - Response handler called. Response: <?xml version="1.0" e...

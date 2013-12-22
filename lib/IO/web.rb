@@ -19,8 +19,10 @@ module Vk
 
       def start
         @thread=Thread.new do
+          @thread.priority=1
           while true do
             process_request
+            Thread.stop if @requests.count == 0 
           end
         end
       end
@@ -32,6 +34,7 @@ module Vk
       def push(args)
         log "Incoming requests: #{args}"
         @requests << OpenStruct.new(request: args[:request], respond_to: args[:respond_to], priority: args[:prioirity]||0)
+        @thread.run
       end
 
       private
@@ -66,7 +69,7 @@ module Vk
 
       def delay
         time_since_last_request=Time.now-@last_request_time # in seconds
-        pause=[(@frequency-time_since_last_request).round(2), 0].max
+        pause=[(@frequency-time_since_last_request).round(3), 0].max
         log "Slept #{pause} sec"
         sleep(pause) unless pause==0
         @last_request_time=Time.now
