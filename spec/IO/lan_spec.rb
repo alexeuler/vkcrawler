@@ -1,52 +1,40 @@
 require "IO/lan"
+require "thread"
 module Vk
   module IO
-    describe "VK::IO::Lan" do
+    class Lan
+      describe "VK::IO::Lan" do
 
-      before :all do
-        @web=Object.new #doubles doesn't work in before all
-        def @web.push(args={})
-          args[:respond_to].handle_response(args[:request]+"Response")
+        before :all do
+          @requests=Queue.new
+          @responses=Queue.new
+          @lan=Lan.new requests: @requests, responses: @responses
+          Thread.abort_on_exception=true
         end
-        @lan=Lan.new(web: @web)
-        Thread.abort_on_exception=true
-      end
 
-      before :each do
-        @socket=TCPSocket.new('localhost', 9000)        
-      end
-
-      after :each do
-        @socket.close        
-      end
-
-      it "logs error message if localhost:9000 is unavailable on initialization" do
-        expect {Lan.new}.to raise_error
-      end
-
-      it "processes 1 request on localhost:9000" do
-        @socket.puts "TestRequest1\n#{EOF}"
-        line=@socket.gets.chomp
-        line.should=="TestRequest1Response"
-      end
-
-      it "can process a bunch of requests in one socket" do
-        @socket.puts "TestRequest1\nTestRequest2\n#{EOF}"
-        result=[]
-        response=""
-        while line=@socket.gets do
-          line.chomp!
-          if line==EOF 
-            result << response 
-            response="" 
-          else 
-            response << line
-          end
+        it "Listens on localhost:9000 and pushes to request queue. Requests are separated by \\n and ends with EOF=#{EOF}" do
+          s=TCPSocket.new "localhost", 9000
+          s.puts "Request1\nRequest2\n#{EOF}"
+          requests=@lan.instance_variable_get(:@requests)
+          requests.pop.data.should=="Request1"
+          requests.pop.data.should=="Request2"
+          requests.length.should == 0
         end
-        result.should==["TestRequest1Response","TestRequest2Response"]
+
+        it "Reads from response queue and writes to localhost:9000. After all resonses in the same socket are wrote it closes the socket" do
+          s=TCPSocket.new "localhost", 9000
+          responses=@lan.instance_variable_get(:@responses)
+          t1=Tuple.new(data:"Response1", socket: s, count: 2)
+          t2=Tuple.new(data:"Response2", socket: s, count: 2)
+          responses.push(t1)
+          responses.push(t2)
+          s.gets.chomp.should=="Response1"
+          s.gets.chomp.should=="Response2"
+          s.gets.should==nil
+        end
+
+
       end
-      
     end
-    
   end
 end

@@ -1,73 +1,65 @@
+require_relative 'tuple'
+require_relative 'logger'
+require 'socket'
+
+
 module Vk
   module IO
-
-    EOF='xHvh58vuUU'
-
-    class ResponseHandler
-
-      def initialize(args)
-        @socket=args[:socket]
-        @number=args[:number]
-      end
-
-      def handle_response(response)
-        log "Response handler called. Response: #{response[0..20]}..."
-        @socket.puts "#{response}\n#{EOF}"
-        @number-=1
-        if @number==0
-          @socket.close
-        end
-      end
-      
-      def log(data)
-        puts "#{Time.now} - #{data}"
-      end
-
-    end
-
     class Lan
+      include Logger
+      EOF='xHvh58vuUU'
 
-      # Protocol
-      # Request - separated with  \n, EOF - end of transmission
-      # Response - separated with EOF, socket close - end of transmission
 
       def initialize(args={})
         args=defaults.merge(args)
         @host=args[:host]
         @port=args[:port]
-        @web=args[:web]
+        @requests=args[:requests]
+        @responses=args[:responses]
+        @server=nil
         start
-        log "Constructor called"
       end
 
       def start
-        begin
-          server=TCPServer.new(@host,@port)
-          log "Server started on #{@host}:#{@port}"
-        rescue Exception => e
-          log "Class #{self.class} was unable to start server on #{@host}:#{@port}. Error: #{e.message}"
-          raise e
-        end
+        start_server
+        listen
+        respond
+      end
+
+      private
+
+      def listen
         Thread.new do
-          while true 
-            process_requests(server)
+          while true
+            Thread.new(@server.accept) do |socket|
+              requests=read_requests(socket)
+              counter=requests.count
+              requests.each do |request|
+                t=Tuple.new data: request, socket: socket, counter: counter
+                log.info request
+                @requests.push t
+              end
+              Thread.exit
+            end
           end
         end
       end
 
-
-      private
-
-      def process_requests(server)
-        Thread.new(server.accept) do |socket|
-          requests=read_requests(socket)
-          log "Fetched requests: #{requests}"
-          respond_to=ResponseHandler.new(socket: socket, number: requests.count)
-          requests.each {|r| @web.push request: r, respond_to: respond_to}
-          Thread.exit
+      def respond
+        Thread.new do
+          while true
+            write_response
+          end
         end
       end
-      
+
+      def write_response
+        tuple=@responses.pop
+        tuple.socket.write tuple.data
+        tuple.counter-=1
+        tuple.socket.close if tuple.counter==0
+      end
+
       def read_requests(socket)
         requests=[]
         while request=socket.gets do
@@ -75,19 +67,28 @@ module Vk
           break if request == EOF
           requests << request
         end
+        log.info "Fetched requests: #{requests}"
         requests
       end
 
-      def defaults
-        {host: 'localhost', port: 9000}
+      def start_server
+        begin
+          @server=TCPServer.new(@host,@port)
+          log.info "Server started on #{@host}:#{@port}"
+        rescue Exception => e
+          log.error "Class #{self.class} was unable to start server on #{@host}:#{@port}. Error: #{e.message}"
+          raise e
+        end
       end
 
-      def log(data)
-        t=Time.now
-        ms=(t.to_f*1000).to_i % 1000
-        puts "#{t} #{ms}ms - #{data}"
+
+      def defaults
+        {host: "localhost", port: 9000}
       end
+
 
     end
   end
 end
+
+
