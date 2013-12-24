@@ -34,9 +34,9 @@ module Vk
             Thread.new(@server.accept) do |socket|
               requests=read_requests(socket)
               counter=requests.count
+              socket_struct=Tuple::SocketStruct.new socket: socket, counter: counter
               requests.each do |request|
-                t=Tuple.new data: request, socket: socket, counter: counter
-                log.info request
+                t=Tuple.new data: request, socket_struct: socket_struct
                 @requests.push t
               end
               Thread.exit
@@ -55,9 +55,9 @@ module Vk
 
       def write_response
         tuple=@responses.pop
-        tuple.socket.write tuple.data
-        tuple.counter-=1
-        tuple.socket.close if tuple.counter==0
+        tuple.socket_struct.socket.puts tuple.data
+        tuple.socket_struct.finished
+        tuple.socket_struct.socket.close if tuple.socket_struct.close?
       end
 
       def read_requests(socket)
