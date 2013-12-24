@@ -64,10 +64,14 @@ module Vk
 
       def read_requests(socket)
         requests=[]
-        while request=socket.gets do
-          request.chomp!
-          break if request == EOF
-          requests << request
+        request=""
+        while line=socket.gets do
+          if line.chomp==EOF
+            requests << request
+            request=""
+          else
+            request << line.chomp 
+          end
         end
         log.info "Fetched requests: #{requests}"
         requests
