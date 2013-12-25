@@ -2,7 +2,7 @@ require 'active_record'
 require 'mysql2'
 
 ActiveRecord::Base.establish_connection(
-  adapter:  'mysql2', # or 'postgresql' or 'sqlite3'
+  adapter:  'mysql2',
   host:     'localhost',
   database: 'vk_crawler',
   username: 'root',

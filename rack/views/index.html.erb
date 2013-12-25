@@ -1,2 +1,5 @@
 <h1>Hello!</h1>
-<p><%=@token%></p>
+<a href="<%="http://api.vk.com/oauth/authorize?client_id=#{@id}&redirect_uri=#{@redirect_uri}"%>">Update</a>
+<p><%=@token.token%></p>
+<p><%=@token.expires.in_time_zone("Moscow")%></p>
+
