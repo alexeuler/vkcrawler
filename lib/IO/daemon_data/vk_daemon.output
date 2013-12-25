@@ -325,3 +325,17 @@ vk_daemon: process with pid 5008 started.
 2013-12-23 00:50:11 +0400 210ms - Fetching response from web...
 2013-12-23 00:50:12 +0400 311ms - Fetched response from web: <?xml version="1.0" e...
 2013-12-23 00:50:12 +0400 - Response handler called. Response: <?xml version="1.0" e...
+vk_daemon: process with pid 12014 started.
+daemon.rb:12:in `block in <main>': uninitialized constant Vk::IO::Web (NameError)
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `call'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:255:in `block in start_proc'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/daemonize.rb:82:in `call_as_daemon'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:259:in `start_proc'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/application.rb:296:in `start'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/controller.rb:70:in `run'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons.rb:197:in `block in run_proc'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `call'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons/cmdline.rb:109:in `catch_exceptions'
+	from /home/alex/.rvm/gems/ruby-2.0.0-p247@rails4/gems/daemons-1.1.9/lib/daemons.rb:196:in `run_proc'
+	from daemon.rb:5:in `<main>'
