@@ -1,4 +1,5 @@
 require 'daemons'
+require 'thread'
 require_relative 'web'
 require_relative 'lan'
 
@@ -9,9 +10,9 @@ Daemons.run_proc('vk_daemon', {
               monitor: true,
               log_output: true
             }) do
-  web=Vk::IO::Web.new
-  Thread.new do
-    Vk::IO::Lan.new(web: web)
-  end
-  Thread.stop
+  requests=Queue.new
+  responses=Queue.new
+  web=Vk::IO::Web.new requests: requests, responses: responses
+  lan=Vk::IO::Lan.new requests: requests, responses: responses
+  sleep
 end

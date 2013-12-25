@@ -22,13 +22,13 @@ module Vk
 
       def start
         start_server
-        listen
-        respond
+        start_listening
+        start_responding
       end
 
       private
 
-      def listen
+      def start_listening
         Thread.new do
           while true
             Thread.new(@server.accept) do |socket|
@@ -45,7 +45,7 @@ module Vk
         end
       end
 
-      def respond
+      def start_responding
         Thread.new do
           while true
             write_response
@@ -55,17 +55,23 @@ module Vk
 
       def write_response
         tuple=@responses.pop
-        tuple.socket_struct.socket.puts tuple.data
+        socket=tuple.socket_struct.socket
+        socket.puts tuple.data
+        socket.puts EOF
         tuple.socket_struct.finished
         tuple.socket_struct.socket.close if tuple.socket_struct.close?
       end
 
       def read_requests(socket)
         requests=[]
-        while request=socket.gets do
-          request.chomp!
-          break if request == EOF
-          requests << request
+        request=""
+        while line=socket.gets do
+          if line.chomp==EOF
+            requests << request
+            request=""
+          else
+            request << line.chomp 
+          end
         end
         log.info "Fetched requests: #{requests}"
         requests

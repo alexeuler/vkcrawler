@@ -3,7 +3,7 @@ require 'ostruct'
 module Vk
   module IO
     class Tuple
-      attr_reader :data, :socket_struct
+      attr_accessor :data, :socket_struct
       class SocketStruct
         attr_accessor :socket, :counter
         
