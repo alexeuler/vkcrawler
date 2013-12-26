@@ -50,6 +50,7 @@ PLATFORMS
 
 DEPENDENCIES
   activerecord
+  activesupport
   daemons
   mongrel (>= 1.2.0.pre2)
   mysql2
