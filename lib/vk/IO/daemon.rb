@@ -16,3 +16,4 @@ Daemons.run_proc('vk_daemon', {
   lan=Vk::IO::Lan.new requests: requests, responses: responses
   sleep
 end
+

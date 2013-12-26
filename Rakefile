@@ -3,6 +3,8 @@ task :test do
   require_relative "config/init"
   require "irb"
   ARGV.clear
+  dir=File.expand_path(File.dirname(__FILE__))
+  system "cd #{dir}/lib/vk/IO && ruby daemon.rb restart && cd #{dir}"
   IRB.start
 end
 
