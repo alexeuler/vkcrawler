@@ -1,1 +1,1 @@
-require_relative "_activerecord"
+require_relative "models"
