@@ -1,5 +1,5 @@
-require "IO/web"
-require "IO/tuple"
+require "vk/IO/web"
+require "vk/IO/tuple"
 require "thread"
 
 module Vk

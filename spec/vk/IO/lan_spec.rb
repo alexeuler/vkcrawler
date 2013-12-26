@@ -1,4 +1,4 @@
-require "IO/lan"
+require "vk/IO/lan"
 require "thread"
 module Vk
   module IO
