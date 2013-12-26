@@ -8,5 +8,3 @@ ActiveRecord::Base.establish_connection(
   username: 'root',
   password: ENV['MY_SQL_PASS']
 )
-
-Dir[File.dirname(__FILE__) + '/../lib/models/*.rb'].each {|file| require file }

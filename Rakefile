@@ -2,7 +2,6 @@
 task :test do
   require_relative "config/init"
   require "irb"
-  require_relative "lib/api"
   ARGV.clear
   IRB.start
 end
