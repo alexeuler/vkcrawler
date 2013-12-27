@@ -1,5 +1,6 @@
 require_relative 'tuple'
 require_relative 'logger'
+require_relative 'protocol'
 require 'socket'
 
 
@@ -7,8 +8,6 @@ module Vk
   module IO
     class Lan
       include Logger
-      EOF='xHvh58vuUU'
-
 
       def initialize(args={})
         args=defaults.merge(args)
@@ -48,31 +47,25 @@ module Vk
       def start_responding
         Thread.new do
           while true
-            write_response
+            tuple=@responses.pop
+            write_response(tuple)
           end
         end
       end
 
-      def write_response
-        tuple=@responses.pop
+      def write_response(tuple)
         socket=tuple.socket_struct.socket
-        socket.puts tuple.data
-        socket.puts EOF
+        socket.puts Protocol.code(tuple.data)
         tuple.socket_struct.finished
         tuple.socket_struct.socket.close if tuple.socket_struct.close?
       end
 
       def read_requests(socket)
-        requests=[]
-        request=""
+        requests_string=""
         while line=socket.gets do
-          if line.chomp==EOF
-            requests << request
-            request=""
-          else
-            request << line.chomp 
-          end
+          requests_string << line
         end
+        requests=Protocol.decode requests_string
         log.info "Fetched requests: #{requests}"
         requests
       end
