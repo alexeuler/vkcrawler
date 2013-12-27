@@ -10,11 +10,11 @@ module Vk
 
     def initialize
       @batch=false
-      @batch_request=""
+      @batch_request=[]
     end
 
     def method_missing(method, *args, &block)
-      request=IO::Protocol.code form_request(method.to_s, *args, &block)
+      request=form_request(method.to_s, *args, &block)
       @batch ? @batch_request << request : send(request)
     end
 
@@ -35,15 +35,8 @@ module Vk
         puts "Unable to connect to Vk IO daemon. #{e.message}"
         return
       end
-      s.puts request
-      s.close_write
-
-      response=""
-      while line=s.gets
-        response << line
-      end
-      s.close
-      responses=IO::Protocol. decode response
+      IO::Protocol.write(s, request)
+      responses=IO::Protocol.read s
       responses.map {|x| JSON.parse x.force_encoding("UTF-8") }
     end
 

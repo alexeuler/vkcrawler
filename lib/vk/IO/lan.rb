@@ -55,17 +55,13 @@ module Vk
 
       def write_response(tuple)
         socket=tuple.socket_struct.socket
-        socket.puts Protocol.code(tuple.data)
+        Protocol.write(socket, tuple.data)
         tuple.socket_struct.finished
         tuple.socket_struct.socket.close if tuple.socket_struct.close?
       end
 
       def read_requests(socket)
-        requests_string=""
-        while line=socket.gets do
-          requests_string << line
-        end
-        requests=Protocol.decode requests_string
+        requests=Protocol.read socket
         log.info "Fetched requests: #{requests}"
         requests
       end

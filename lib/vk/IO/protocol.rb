@@ -30,6 +30,21 @@ module Vk
         result
       end
 
+      def self.read(socket)
+        res=""
+        while line=socket.gets do
+          res << line
+        end
+        Protocol.decode res
+        socket.close
+      end
+
+      def self.write(socket, data)
+        socket.puts Protocol.code(data)
+        socket.close_write
+      end
+
+
     end
   end
 end
