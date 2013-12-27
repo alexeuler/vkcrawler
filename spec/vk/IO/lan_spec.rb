@@ -8,21 +8,25 @@ module Vk
         before :all do
           @requests=Queue.new
           @responses=Queue.new
-          @lan=Lan.new requests: @requests, responses: @responses
+          @lan=Lan.new requests: @requests, responses: @responses, frequency: 0.2
           Thread.abort_on_exception=true
         end
 
-        it "Listens on localhost:9000 and pushes to request queue. Requests are separated by EOF=#{EOF}. On finish call close_write." do
+        it "Listens on localhost:9000 and pushes to request queue. Requests are separated by EOF=#{EOF} and fired with predetermined frequency. Close_write finishes request transmission" do
           s=TCPSocket.new "localhost", 9000
-          s.puts "Request1"
-          s.puts EOF
-          s.puts "Request2"
-          s.puts EOF
+          start=Time.now
+          5.times do |i|
+            s.puts "Request#{i}"
+            s.puts EOF
+          end
           s.close_write
           requests=@lan.instance_variable_get(:@requests)
-          requests.pop.data.should=="Request1"
-          requests.pop.data.should=="Request2"
+          5.times do |i|
+            requests.pop.data.should=="Request#{i}"
+          end
           requests.length.should == 0
+          run_time=Time.now - start
+          run_time.should>=0.8 #first request fires immediately
         end
 
         it "Reads from response queue and writes to localhost:9000. Respnoses are separated by EOF=#{EOF}." do

@@ -16,7 +16,9 @@ module Vk
         @port=args[:port]
         @requests=args[:requests]
         @responses=args[:responses]
+        @frequency=args[:frequency]
         @server=nil
+        @last_fetch=Time.now
         start
       end
 
@@ -37,6 +39,7 @@ module Vk
               socket_struct=Tuple::SocketStruct.new socket: socket, counter: counter
               requests.each do |request|
                 t=Tuple.new data: request, socket_struct: socket_struct
+                delay
                 @requests.push t
               end
               Thread.exit
@@ -87,9 +90,20 @@ module Vk
         end
       end
 
+      def delay
+        since_last_fetch=Time.now-@last_fetch # in seconds
+        pause=[(@frequency-since_last_fetch).round(4), 0].max
+        sleep(pause) unless pause==0
+        @last_fetch=Time.now
+      end
 
       def defaults
-        {host: "localhost", port: 9000}
+        {frequency: 0.2}
+      end
+
+
+      def defaults
+        {host: "localhost", port: 9000, frequency: 0.2}
       end
 
 
