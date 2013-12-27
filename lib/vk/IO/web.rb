@@ -16,9 +16,10 @@ module Vk
         Thread.new do
           while true
             tuple=@requests.pop
-            delay
-            tuple.data=get(tuple.data)
-            @responses.push tuple
+            Thread.new(tuple) do |t|
+              t.data=get(t.data)
+              @responses.push t
+            end
           end
         end
       end
