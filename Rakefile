@@ -1,11 +1,21 @@
 
-task :test do
+task :console do
   require_relative "config/init"
   require "irb"
   ARGV.clear
   dir=File.expand_path(File.dirname(__FILE__))
   system "cd #{dir}/lib/vk/IO && ruby daemon.rb restart && cd #{dir}"
   IRB.start
+  system "cd #{dir}/lib/vk/IO && ruby daemon.rb stop && cd #{dir}"
+end
+
+task :benchmark, :file_name do |t, args|
+  require_relative "config/init"
+  dir=File.expand_path(File.dirname(__FILE__))
+  system "cd #{dir}/lib/vk/IO && ruby daemon.rb restart && cd #{dir}"
+  sleep(1)
+  require "#{dir}/benchmark/#{args.file_name}"
+  system "cd #{dir}/lib/vk/IO && ruby daemon.rb stop && cd #{dir}"
 end
 
 db_namespace=namespace :db do

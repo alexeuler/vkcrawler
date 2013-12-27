@@ -12,12 +12,16 @@ module Vk
 
     def self.method_missing(method, *args, &block)
       request=form_request(method.to_s, *args, &block)
-      puts request
       send(request)
     end
 
     def self.send(request)
-      s=TCPSocket.new "localhost", 9000
+      begin
+        s=TCPSocket.new "localhost", 9000
+      rescue Exception => e
+        puts "Unable to connect to Vk IO daemon. #{e.message}"
+        return
+      end
       s.puts "#{request}\n#{EOF}"
       s.close_write
       response=""
