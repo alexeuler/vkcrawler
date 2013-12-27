@@ -8,7 +8,7 @@ module Vk
   module IO
     class Lan
       include Logger
-
+      EOF='xHvh58vuUU'
       def initialize(args={})
         args=defaults.merge(args)
         @host=args[:host]
@@ -76,7 +76,6 @@ module Vk
           log.info "Server started on #{@host}:#{@port}"
         rescue Exception => e
           log.error "Class #{self.class} was unable to start server on #{@host}:#{@port}. Error: #{e.message}"
-          raise e
         end
       end
 

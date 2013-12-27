@@ -1,5 +1,6 @@
 require "socket"
 require_relative "token"
+require_relative "IO/protocol"
 require 'json'
 
 module Vk
@@ -14,8 +15,7 @@ module Vk
     end
 
     def method_missing(method, *args, &block)
-      request=form_request(method.to_s, *args, &block)
-      request << "\n#{EOF}\n"
+      request=IO::Protocol.code form_request(method.to_s, *args, &block)
       @batch ? @batch_request << request : send(request)
     end
 
@@ -40,12 +40,11 @@ module Vk
       s.close_write
 
       response=""
-      responses=[]
       while line=s.gets
-        line.chomp!
-        line==EOF ? responses << response && response="" : response << line
+        response << line
       end
       s.close
+      responses=IO::Protocol. decode response
       responses.map {|x| JSON.parse x.force_encoding("UTF-8") }
     end
 
