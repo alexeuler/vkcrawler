@@ -3,7 +3,7 @@ require "thread"
 module Vk
   module IO
     class Lan
-      describe "VK::IO::Lan" do
+      describe "Vk::IO::Lan" do
 
         before :all do
           @requests=Queue.new

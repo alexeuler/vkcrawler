@@ -38,6 +38,7 @@ module Vk
       end
       s.puts request
       s.close_write
+
       response=""
       responses=[]
       while line=s.gets

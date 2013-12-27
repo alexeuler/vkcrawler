@@ -5,9 +5,9 @@ require "thread"
 module Vk
   module IO
 
-    describe "Web" do
+    describe "Vk::IO::Web" do
       
-      it "Reads from requests queue, fetches the request and pushes to responses queue" do
+      it "Reads Tuple from requests queue, fetches the request with predetermied frequency and pushes to responses queue" do
         requests=Queue.new
         responses=Queue.new
         web=Web.new requests: requests, responses: responses
