@@ -30,6 +30,7 @@ module Vk
       private
 
       def get(request)
+        log.info "Started request #{request}"
         RestClient.get request
       end
 
@@ -41,7 +42,7 @@ module Vk
       end
 
       def defaults
-        {frequency: 0.2}
+        {frequency: 1.0/3}
       end
 
     end
