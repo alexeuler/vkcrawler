@@ -7,7 +7,6 @@ module Vk
   class Api
 
     attr_reader :token
-    EOF='xHvh58vuUU'
 
     def initialize
       @batch=false

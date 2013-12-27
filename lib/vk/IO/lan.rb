@@ -8,7 +8,7 @@ module Vk
   module IO
     class Lan
       include Logger
-      EOF='xHvh58vuUU'
+
       def initialize(args={})
         args=defaults.merge(args)
         @host=args[:host]
