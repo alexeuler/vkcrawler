@@ -1,4 +1,9 @@
 require 'benchmark'
 Benchmark.bm do |x|
-  x.report("users.get") { 20.times {Vk::Api.users_get}}
+  api=Vk::Api.new
+  x.report("users.get") do
+    api.batch do
+      20.times {api.users_get}
+    end
+  end
 end

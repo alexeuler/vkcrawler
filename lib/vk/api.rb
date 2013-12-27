@@ -5,37 +5,52 @@ require 'json'
 module Vk
   class Api
 
-    class << self
-      attr_reader :token
-    end
+    attr_reader :token
     EOF='xHvh58vuUU'
 
-    def self.method_missing(method, *args, &block)
-      request=form_request(method.to_s, *args, &block)
-      send(request)
+    def initialize
+      @batch=false
+      @batch_request=""
     end
 
-    def self.send(request)
+    def method_missing(method, *args, &block)
+      request=form_request(method.to_s, *args, &block)
+      request << "\n#{EOF}\n"
+      @batch ? @batch_request << request : send(request)
+    end
+
+    def batch
+      return unless block_given? 
+      @batch=true
+      yield
+      response=send @batch_request
+      @batch=false
+      @batch_request=""
+      response
+    end
+
+    def send(request)
       begin
         s=TCPSocket.new "localhost", 9000
       rescue Exception => e
         puts "Unable to connect to Vk IO daemon. #{e.message}"
         return
       end
-      s.puts "#{request}\n#{EOF}"
+      s.puts request
       s.close_write
       response=""
+      responses=[]
       while line=s.gets
         line.chomp!
-        response << line unless line==EOF
+        line==EOF ? responses << response && response="" : response << line
       end
       s.close
-      JSON.parse response.force_encoding("UTF-8")
+      responses.map {|x| JSON.parse x.force_encoding("UTF-8") }
     end
 
     private
 
-    def self.form_request(method, *args, &block)
+    def form_request(method, *args, &block)
       method.gsub!("_",".")
       token=Token.first.token
       res="https://api.vk.com/method/#{method}?access_token=#{token}"
