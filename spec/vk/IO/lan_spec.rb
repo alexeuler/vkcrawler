@@ -12,9 +12,8 @@ module Vk
           Thread.abort_on_exception=true
         end
 
-        it "Listens on localhost:9000 and pushes to request queue. Requests are separated by EOF=#{EOF} and fired with predetermined frequency. Close_write finishes request transmission" do
+        it "Listens on localhost:9000 and pushes to request queue. Requests are separated by EOF=#{EOF}. Close_write finishes request transmission" do
           s=TCPSocket.new "localhost", 9000
-          start=Time.now
           5.times do |i|
             s.puts "Request#{i}"
             s.puts EOF
@@ -25,8 +24,6 @@ module Vk
             requests.pop.data.should=="Request#{i}"
           end
           requests.length.should == 0
-          run_time=Time.now - start
-          run_time.should>=0.8 #first request fires immediately
         end
 
         it "Reads from response queue and writes to localhost:9000. Respnoses are separated by EOF=#{EOF}." do
