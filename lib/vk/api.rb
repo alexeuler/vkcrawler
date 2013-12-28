@@ -24,7 +24,7 @@ module Vk
       yield
       response=send @batch_request
       @batch=false
-      @batch_request=""
+      @batch_request=[]
       response
     end
 

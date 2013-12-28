@@ -57,7 +57,6 @@ module Vk
         socket=tuple.socket_struct.socket
         tuple.socket_struct.finished
         Protocol.write(socket: socket, data: tuple.data, close: tuple.socket_struct.close?)
-        #tuple.socket_struct.socket.close if tuple.socket_struct.close?
       end
 
       def read_requests(socket)
