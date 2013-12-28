@@ -35,8 +35,8 @@ module Vk
         puts "Unable to connect to Vk IO daemon. #{e.message}"
         return
       end
-      IO::Protocol.write(s, request)
-      responses=IO::Protocol.read s
+      IO::Protocol.write(socket: s, data: request)
+      responses=IO::Protocol.read socket: s
       responses.map {|x| JSON.parse x.force_encoding("UTF-8") }
     end
 

@@ -30,20 +30,30 @@ module Vk
         result
       end
 
-      def self.read(socket)
+      def self.read(args)
+        args=defaults.merge args
+        socket=args[:socket]
+        close=args[:close]
         res=""
         while line=socket.gets do
           res << line
         end
+        socket.close_read if close
         Protocol.decode res
-        socket.close
       end
 
-      def self.write(socket, data)
+      def self.write(args)
+        args=defaults.merge args
+        socket=args[:socket]
+        close=args[:close]
+        data=args[:data]
         socket.puts Protocol.code(data)
-        socket.close_write
+        socket.close_write if close
       end
 
+      def self.defaults
+        {close: true}
+      end
 
     end
   end
