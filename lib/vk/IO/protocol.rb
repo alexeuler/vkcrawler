@@ -6,7 +6,7 @@ module Vk
 
       EOF='xHvh58vuUU'
       # data is array or string
-      def self.code(data)
+      def code(data)
         res=""
         data=[data] unless data.class.name=="Array"
         data.each do |chunk|
@@ -16,7 +16,7 @@ module Vk
         res
       end
 
-      def self.decode(data)
+      def decode(data)
         result=[]
         chunk=""        
         data.split("\n").each do |line|
@@ -30,7 +30,7 @@ module Vk
         result
       end
 
-      def self.read(args)
+      def read(args)
         args=defaults.merge args
         socket=args[:socket]
         close=args[:close]
@@ -39,19 +39,19 @@ module Vk
           res << line
         end
         socket.close_read if close
-        Protocol.decode res
+        decode res
       end
 
-      def self.write(args)
+      def write(args)
         args=defaults.merge args
         socket=args[:socket]
         close=args[:close]
         data=args[:data]
-        socket.puts Protocol.code(data)
+        socket.puts code(data)
         socket.close_write if close
       end
 
-      def self.defaults
+      def defaults
         {close: true}
       end
 

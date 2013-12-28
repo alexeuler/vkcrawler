@@ -8,7 +8,8 @@ module Vk
 
     attr_reader :token
 
-    def initialize
+    def initialize(args={})
+      @protocol=args[:protocol] || IO::Protocol.new
       @batch=false
       @batch_request=[]
     end
@@ -35,8 +36,8 @@ module Vk
         puts "Unable to connect to Vk IO daemon. #{e.message}"
         return
       end
-      IO::Protocol.write(socket: s, data: request)
-      responses=IO::Protocol.read socket: s
+      @protocol.write(socket: s, data: request)
+      responses=@protocol.read socket: s
       responses.map {|x| JSON.parse x.force_encoding("UTF-8") }
     end
 

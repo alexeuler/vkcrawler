@@ -15,6 +15,7 @@ module Vk
         @port=args[:port]
         @requests=args[:requests]
         @responses=args[:responses]
+        @protocol=args[:protocol]
         @server=nil
         start
       end
@@ -56,11 +57,11 @@ module Vk
       def write_response(tuple)
         socket=tuple.socket_struct.socket
         tuple.socket_struct.finished
-        Protocol.write(socket: socket, data: tuple.data, close: tuple.socket_struct.close?)
+        @protocol.write(socket: socket, data: tuple.data, close: tuple.socket_struct.close?)
       end
 
       def read_requests(socket)
-        requests=Protocol.read socket: socket
+        requests=@protocol.read socket: socket
         log.info "Fetched requests: #{requests}"
         requests
       end
@@ -75,7 +76,7 @@ module Vk
       end
 
       def defaults
-        {host: "localhost", port: 9000}
+        {host: "localhost", port: 9000, protocol: Protocol.new}
       end
 
 
