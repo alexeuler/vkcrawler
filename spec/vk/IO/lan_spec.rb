@@ -16,9 +16,8 @@ module Vk
         it "Listens on localhost:9000 and pushes to request queue. Close_write finishes request transmission" do
           s=TCPSocket.new "localhost", 9000
           5.times do |i|
-            s.puts @protocol.code "Request#{i}"
+            @protocol.write socket: s, data: "Request#{i}", close: i==4
           end
-          s.close_write
           requests=@lan.instance_variable_get(:@requests)
           5.times do |i|
             requests.pop.data.should=="Request#{i}"
@@ -28,19 +27,12 @@ module Vk
 
         it "Reads from response queue and writes to localhost:9000." do
           s=TCPSocket.new "localhost", 9000
-          s.puts @protocol.code ["Request1", "Request2"]
-          s.close_write
+          @protocol.write socket: s, data: ["Request1", "Request2"]
           requests=@lan.instance_variable_get(:@requests)
           responses=@lan.instance_variable_get(:@responses)
           responses.push requests.pop
           responses.push requests.pop
-          resp=""
-          while line=s.gets
-            resp << line
-          end
-          @protocol.decode(resp).should==["Request1", "Request2"]
-          s.gets.should==nil
-          s.close
+          @protocol.read(socket: s).should==["Request1", "Request2"]
         end
       end
     end
